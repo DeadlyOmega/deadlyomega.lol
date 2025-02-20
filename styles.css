@@ -33,6 +33,10 @@
     border-radius: 150px;
     border-right: 0.3rem solid white;
     animation: animate 2s linear infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
   
   /* Animation */
