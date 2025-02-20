@@ -27,3 +27,9 @@
     
     // Display the counter on the page
     document.getElementById('numberDisplay').innerText = counter;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+          document.querySelector(".grid-container").classList.add("show");
+        }, 500); // Delay for a smooth effect
+      })

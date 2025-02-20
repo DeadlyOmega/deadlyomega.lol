@@ -66,53 +66,13 @@
     top: 50%;
     transform: translate(-50%, -50%);
   }
-
-  .card {
-    backdrop-filter: blur(15px);
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    position: relative;
-    cursor: pointer;
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    opacity: 0;
-    animation: fadeIn 0.6s ease-out forwards;
-  }
-  
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    grid-auto-rows: 200px;
-    gap: 20px;
-  }
-  
-  /* Variations for Larger Cards */
-  .card-large-h {
-    grid-column: span 2;
-  }
-  
-  .card-large-v {
-    grid-row: span 2;
-  }
-  
-  .card-large {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-  
-  .card-wide {
-    grid-column: span 2;
-  }
   
 
   .navbar {
+    top: 0;               /* Sticks it to the top */
     position: relative; /* So children can be absolutely positioned */
     display: flex;
+    z-index: 9999;        /* Ensure it's above cards */
     justify-content: center; /* Centers the heading */
     align-items: center;
     background-color: #0F2027;
@@ -138,10 +98,76 @@
 .heading {
     font-family: 'birthstone', sans-serif;
     font-size: 40px;
-    /* text-align: center; not needed because flex centers the element */
 }
 
 
 #numberDisplay {
     font-size: 15px;
 }
+
+main {
+    margin-top: 80px; /* Adjust to match navbar height + spacing */
+    padding: 20px 0;
+  }
+  
+  /* Grid container with fewer columns, 60% width of screen */
+  .grid-container {
+    width: 60%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 200px;
+    gap: 20px;
+  
+    opacity: 0; /* Hidden initially */
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+  
+  .grid-container.show {
+    opacity: 1; /* Fade in */
+    transform: translateY(0);
+  }
+  
+  /* Card base styling */
+  .card {
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0; /* Fade in animation */
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  /* Fade in animation for the cards */
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Large card variations */
+  .card-large-h {
+    grid-column: span 2;
+  }
+  
+  .card-large-v {
+    grid-row: span 2;
+  }
+  
+  .card-large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  
+  .card-wide {
+    grid-column: span 2;
+  }
