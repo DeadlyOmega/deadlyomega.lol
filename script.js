@@ -5,4 +5,5 @@ document.addEventListener('DOMContentLoaded', () => {
       document.documentElement.style.setProperty('--accent-color', accentInput.value);
     });
   });
-  
+  console.clear();
+Splitting();
