@@ -111,9 +111,9 @@
   
 
   .navbar {
-    position: relative; /* Establish a positioning context */
+    position: relative; /* So children can be absolutely positioned */
     display: flex;
-    justify-content: center; /* Center the heading */
+    justify-content: center; /* Centers the heading */
     align-items: center;
     background-color: #0F2027;
     border-radius: 33px;
@@ -124,15 +124,24 @@
     margin-right: 20%;
 }
 
+/* New container for the counter and icon */
+.counter-wrapper {
+    position: absolute;
+    right: 5%;       /* Adjust as needed */
+    display: flex;   /* So the number and icon are side by side */
+    align-items: center;
+    gap: 0.5rem;     /* Small space between number and icon */
+    font-size: 40px; 
+    font-family: 'Roboto', sans-serif;
+}
+
 .heading {
     font-family: 'birthstone', sans-serif;
     font-size: 40px;
     /* text-align: center; not needed because flex centers the element */
 }
 
-.countercss {
-    position: absolute; /* Remove from the normal flow */
-    right: 5%; /* Adjust as needed for spacing */
-    font-family: 'roboto', sans-serif;
-    font-size: 40px;
+
+#numberDisplay {
+    font-size: 15px;
 }
