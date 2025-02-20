@@ -71,6 +71,7 @@
 }
 
 .navbar {
+    display: flex;
     justify-content: stretch;
     background-color: #0F2027;
     border-radius: 33px;
