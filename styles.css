@@ -110,15 +110,11 @@
   }
   
 
-.heading {
-    font-family: 'birthstone', sans-serif;
-    text-align: center;
-    font-size: 40px;
-}
-
-.navbar {
-    justify-content: center;
+  .navbar {
+    position: relative; /* Establish a positioning context */
     display: flex;
+    justify-content: center; /* Center the heading */
+    align-items: center;
     background-color: #0F2027;
     border-radius: 33px;
     position: fixed;
@@ -128,9 +124,15 @@
     margin-right: 20%;
 }
 
+.heading {
+    font-family: 'birthstone', sans-serif;
+    font-size: 40px;
+    /* text-align: center; not needed because flex centers the element */
+}
+
 .counter {
+    position: absolute; /* Remove from the normal flow */
+    right: 5%; /* Adjust as needed for spacing */
     font-family: 'roboto', sans-serif;
-    text-align: right;
-    margin-right: 5%;
     font-size: 40px;
 }
