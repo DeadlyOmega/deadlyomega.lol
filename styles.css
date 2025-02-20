@@ -21,6 +21,10 @@
     width: 200px;
     height: 200px;
     border-radius: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
   
   /* Loader */
@@ -44,6 +48,7 @@
   /* loading text */
   .loading_container > h3 {
     color: #fff;
+    
     position: absolute;
     left: 50%;
     top: 50%;
