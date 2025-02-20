@@ -140,7 +140,7 @@ main {
     position: relative;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
     opacity: 0; /* Fade in animation */
@@ -170,4 +170,19 @@ main {
   
   .card-wide {
     grid-column: span 2;
+  }
+
+  .card1 {
+    background-image: url('https://i.kym-cdn.com/entries/icons/facebook/000/050/204/cover2.jpg');
+    background-size: cover; /* Options: contain, cover, auto */
+    background-position: center; /* Options: top, bottom, left, right */
+    background-repeat: no-repeat; /* Prevents repeating */
+    color: black;
+    text-shadow:1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue; 
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+  .card:hover {
+    transform: scale(1.05); /* Slight zoom effect */
   }
