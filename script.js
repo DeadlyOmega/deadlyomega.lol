@@ -26,4 +26,4 @@
     localStorage.setItem('counter', counter);
     
     // Display the counter on the page
-    document.getElementById('numberDisplay').innerText = 'Counter: ' + counter;
+    document.getElementById('.counter').innerText = 'Counter: ' + counter;
