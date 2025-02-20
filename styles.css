@@ -40,7 +40,7 @@
     100% {
       transform: rotate(360deg);
     }
-  
+}
   /* loading text */
   .loading_container > h3 {
     color: #fff;
