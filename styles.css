@@ -68,5 +68,8 @@
 .heading {
     font-family: 'birthstone', sans-serif;
     text-align: center;
+}
+
+nav {
     position: fixed;
 }
