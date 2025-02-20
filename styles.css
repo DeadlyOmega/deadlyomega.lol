@@ -69,4 +69,5 @@
     font-family: 'birthstone', sans-serif;
     justify-content: center;
     align-self: center;
+    position: fixed;
 }
