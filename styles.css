@@ -74,6 +74,7 @@
 .navbar {
     justify-content: stretch;
     background-color: #0F2027;
-    border-radius: 33;
+    border-radius: 33px;
     position: fixed;
+    margin-top: 30px;
 }
