@@ -72,7 +72,7 @@
 
 .navbar {
     display: flex;
-    justify-content: stretch;
+    width: 90%;
     background-color: #0F2027;
     border-radius: 33px;
     position: fixed;
