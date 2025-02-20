@@ -71,5 +71,7 @@
 }
 
 nav {
+    background-color: #0F2027;
+    border-radius: 33;
     position: fixed;
 }
