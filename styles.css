@@ -130,7 +130,7 @@
     /* text-align: center; not needed because flex centers the element */
 }
 
-.counter {
+.countercss {
     position: absolute; /* Remove from the normal flow */
     right: 5%; /* Adjust as needed for spacing */
     font-family: 'roboto', sans-serif;
