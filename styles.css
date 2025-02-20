@@ -7,12 +7,11 @@
   
   :root {
     --accent-color: #304FFE;
-    /* A rich multi-stop gradient background */
-    --background-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    /* Subtle translucent glass effect for cards */
+    /* Animated gradient background for the page */
+    --bg-gradient: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #008080);
     --card-bg: rgba(255, 255, 255, 0.15);
     --transition-speed: 0.4s;
-    /* Highlight colors for a 3-layer glow effect */
+    /* 3-layer highlight colors */
     --highlight-color-1: rgba(255, 255, 255, 0.2);
     --highlight-color-2: rgba(255, 255, 255, 0.1);
     --highlight-color-3: rgba(255, 255, 255, 0.05);
@@ -20,10 +19,19 @@
   
   body {
     font-family: 'Poppins', sans-serif;
-    background: var(--background-gradient);
+    background: var(--bg-gradient);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     color: #fff;
     line-height: 1.6;
     overflow-x: hidden;
+  }
+  
+  /* Animated Background Keyframes */
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
   
   /* Accent Color Picker */
@@ -108,7 +116,7 @@
     animation: fadeIn 0.6s ease-out forwards;
   }
   
-  /* Fade in animation for cards */
+  /* Fade In Animation for Cards */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -120,7 +128,7 @@
     }
   }
   
-  /* 3 Highlight Effect on Hover using layered box-shadows */
+  /* 3-Layer Highlight Effect on Hover */
   .card:hover {
     transform: translateY(-5px);
     box-shadow:
@@ -130,7 +138,7 @@
       0 0 32px var(--highlight-color-3);
   }
   
-  /* Variations for larger cards */
+  /* Variations for Larger Cards */
   .card-large-h {
     grid-column: span 2;
   }
