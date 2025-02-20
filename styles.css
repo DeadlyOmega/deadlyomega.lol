@@ -51,7 +51,10 @@
   /* loading text */
   .loading_container > h3 {
     color: #fff;
-    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     position: absolute;
     left: 50%;
     top: 50%;
