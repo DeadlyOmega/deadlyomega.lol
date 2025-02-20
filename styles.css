@@ -66,6 +66,7 @@
 }
 
 .navbar {
+    justify-content: center;
     display: flex;
     width: 90%;
     background-color: #0F2027;
