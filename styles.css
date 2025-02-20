@@ -17,7 +17,6 @@
 
         /* Outer Loading Container */
     .loading_container {    
-    position: relative;
     width: 200px;
     height: 200px;
     border-radius: 150px;
@@ -110,8 +109,8 @@
     background-color: #0F2027;
     border-radius: 33px;
     position: fixed;
-    width: 40%;
+    width: 60%;
     margin-top: 30px;
-    margin-left: 30%;
-    margin-right: 30%;
+    margin-left: 20%;
+    margin-right: 20%;
 }
