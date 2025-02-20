@@ -1,0 +1,134 @@
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  /* Header styling */
+  header {
+    background: #35424a;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  header nav ul {
+    list-style: none;
+    margin-top: 10px;
+  }
+  
+  header nav ul li {
+    display: inline;
+    margin: 0 10px;
+  }
+  
+  header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  /* Card container layout */
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+  }
+  
+  /* Card styling */
+  .card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 300px;
+  }
+  
+  .card h2 {
+    margin-bottom: 10px;
+  }
+  
+  .card p {
+    margin-bottom: 15px;
+  }
+  
+  .card-btn {
+    background: #35424a;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .card-btn:hover {
+    background: #2d3a40;
+  }
+  
+  /* Tool styling */
+  .tool {
+    margin-top: 10px;
+  }
+  
+  .tool input[type="text"] {
+    width: calc(100% - 110px);
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .tool button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background: #5cb85c;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .tool button:hover {
+    background: #4cae4c;
+  }
+  
+  /* Counter tool styling */
+  .counter-tool {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .counter-tool button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    background: #e7e7e7;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .counter-tool span {
+    margin: 0 15px;
+    font-size: 18px;
+  }
+  
+  /* Footer styling */
+  footer {
+    background: #35424a;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
