@@ -55,7 +55,30 @@
       }
       
       // Aufruf der Funktion alle 1000 Millisekunden (1 Sekunde)
-      setInterval(updateEUTime, 1000);
+
+
+      function updateEUDAte() {
+        const options = {
+          timeZone: 'Europe/Berlin', // Zeitzone für Deutschland und viele EU-Länder
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
+          hour12: false
+        };
+      
+        // Erhalte die aktuelle Zeit
+        const date = new Date();
+        const currentEUDAte = new Intl.DateTimeFormat('de-DE', options).format(date);
+      
+        // Setze den Inhalt des Paragraphen mit der ID "time-display"
+        const timeParagraph = document.querySelector('.date');
+        if (timeParagraph) {
+          timeParagraph.textContent = currentEUDAte; // Ersetze den Text mit der Zeit
+        }
+      }
       
       // Initialer Aufruf, um sofort die Zeit zu setzen
-      updateEUTime();
+      updateEUDAte();
+
+      setInterval(updateEUTime, 1000);
+      setInterval(updateEUDate, 1000);

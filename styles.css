@@ -196,11 +196,3 @@ main {
     text-shadow: 2px 2px 4px #000000;
 
 }
-
-  .card h2 {
-    margin-bottom: 10px; /* Adds space below the heading */
-  }
-
-  .card p {
-    padding-top: 10px; /* Adds space above the paragraph */
-  }
