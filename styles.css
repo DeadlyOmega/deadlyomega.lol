@@ -134,6 +134,7 @@ main {
     backdrop-filter: blur(15px);
     border-radius: 16px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
@@ -150,7 +151,7 @@ main {
   /* Fade in animation for the cards */
   @keyframes fadeIn {
     to {
-      opacity: 1;
+      opacity: 0.8;
     }
   }
   
@@ -185,4 +186,21 @@ main {
 
   .card:hover {
     transform: scale(1.05); /* Slight zoom effect */
+  }
+
+  .card6 {
+    background-image: url("https://upload.wikimedia.org/wikipedia/en/thumb/b/ba/Flag_of_Germany.svg/1200px-Flag_of_Germany.svg.png");
+    background-size: cover; /* Options: contain, cover, auto */
+    background-position: center; /* Options: top, bottom, left, right */
+    background-repeat: no-repeat; /* Prevents repeating */
+    text-shadow: 2px 2px 4px #000000;
+
+}
+
+  .card h2 {
+    margin-bottom: 10px; /* Adds space below the heading */
+  }
+
+  .card p {
+    padding-top: 10px; /* Adds space above the paragraph */
   }

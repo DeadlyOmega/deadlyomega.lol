@@ -33,3 +33,29 @@
           document.querySelector(".grid-container").classList.add("show");
         }, 500); // Delay for a smooth effect
       })
+
+      function updateEUTime() {
+        const options = {
+          timeZone: 'Europe/Berlin', // Zeitzone für Deutschland und viele EU-Länder
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        };
+      
+        // Erhalte die aktuelle Zeit
+        const date = new Date();
+        const currentEUTime = new Intl.DateTimeFormat('de-DE', options).format(date);
+      
+        // Setze den Inhalt des Paragraphen mit der ID "time-display"
+        const timeParagraph = document.querySelector('.time');
+        if (timeParagraph) {
+          timeParagraph.textContent = currentEUTime; // Ersetze den Text mit der Zeit
+        }
+      }
+      
+      // Aufruf der Funktion alle 1000 Millisekunden (1 Sekunde)
+      setInterval(updateEUTime, 1000);
+      
+      // Initialer Aufruf, um sofort die Zeit zu setzen
+      updateEUTime();
