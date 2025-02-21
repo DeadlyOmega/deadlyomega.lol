@@ -78,10 +78,10 @@
     background-color: #0F2027;
     border-radius: 33px;
     position: fixed;
-    width: 60%;
+    width: 80%;
     margin-top: 30px;
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 /* New container for the counter and icon */
