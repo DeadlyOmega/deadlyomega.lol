@@ -66,7 +66,7 @@
         const timeElement = document.querySelector(".card6 .time");
     
         // Fetch the current time in Germany
-        fetch("https://worldtimeapi.org/api/timezone/Europe/Berlin")
+        fetch("https://api.allorigins.win/raw?url=https://worldtimeapi.org/api/timezone/Europe/Berlin")
           .then(response => response.json())
           .then(data => {
             const dateTime = new Date(data.datetime);
