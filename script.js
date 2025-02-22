@@ -76,3 +76,59 @@
         updateEUTime();
         setInterval(updateEUTime, 1000); 
       };
+
+      async function updateDiscordStatus() {
+        try {
+          const response = await fetch('https://api.lanyard.rest/v1/users/626069774002159619');
+          const data = await response.json();
+          
+          if (!data.success) return;
+          
+          const userData = data.data;
+          const discordUser = userData.discord_user;
+          
+          // Update avatar
+          const avatarElement = document.querySelector('.avatar');
+          avatarElement.src = `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`;
+          
+          // Update avatar decoration if present
+          const decorationElement = document.querySelector('.avatar-decoration');
+          if (discordUser.avatar_decoration_data) {
+            // Replace with your custom image URL for the decoration
+            decorationElement.src = `Images/avatar.png`; // Custom image URL
+            decorationElement.style.display = 'block';
+          } else {
+            decorationElement.style.display = 'none';
+          }
+
+          // Update username
+          document.querySelector('.username').textContent = discordUser.global_name || discordUser.username;
+          
+          // Update status indicator
+          const statusIndicator = document.querySelector('.status-indicator');
+          statusIndicator.className = `status-indicator ${userData.discord_status}`;
+          
+          // Update custom status if present
+          const customStatusElement = document.querySelector('.custom-status');
+          const customStatus = userData.activities.find(activity => activity.type === 4);
+          if (customStatus) {
+            customStatusElement.textContent = `${customStatus.emoji?.name || ''} ${customStatus.state}`;
+          } else {
+            customStatusElement.textContent = '';
+          }
+          
+          // Update platform status
+          document.querySelector('.platform-status').textContent = 
+            userData.active_on_discord_desktop ? 'Active on: Desktop' :
+            userData.active_on_discord_mobile ? 'Active on: Mobile' :
+            userData.active_on_discord_web ? 'Active on: Web' :
+            'Not currently active';
+          
+        } catch (error) {
+          console.error('Error fetching Discord status:', error);
+        }
+      }
+      
+      // Update immediately and then every 30 seconds
+      updateDiscordStatus();
+      setInterval(updateDiscordStatus, 30000);
