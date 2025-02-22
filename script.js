@@ -161,4 +161,22 @@
           });
         });
       });
-      
+              // Set your birthday (MM/DD/YYYY format)
+        const birthday = new Date("2025-08-21");  // Example: March 10, 2025
+
+        // Function to calculate the days left
+        function calculateDaysLeft() {
+            const today = new Date();
+            const timeDiff = birthday - today;
+            const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));  // Convert milliseconds to days
+            return daysLeft;
+        }
+
+        // Display the number of days left
+        function updateBirthdayMessage() {
+            const daysLeft = calculateDaysLeft();
+            document.getElementById('daysLeft').textContent = daysLeft;
+        }
+
+        // Run the function when the page loads
+        updateBirthdayMessage();
