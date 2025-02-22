@@ -36,54 +36,43 @@
 
       function updateEUTime() {
         const options = {
-          timeZone: 'Europe/Berlin', // Zeitzone für Deutschland und viele EU-Länder
+          timeZone: 'Europe/Berlin',
           hour: '2-digit',
           minute: '2-digit',
           second: '2-digit',
           hour12: false
         };
       
-        // Erhalte die aktuelle Zeit
         const date = new Date();
         const currentEUTime = new Intl.DateTimeFormat('de-DE', options).format(date);
-      
-        // Setze den Inhalt des Paragraphen mit der ID "time-display"
+
         const timeParagraph = document.querySelector('.time');
         if (timeParagraph) {
-          timeParagraph.textContent = currentEUTime; // Ersetze den Text mit der Zeit
+          timeParagraph.textContent = currentEUTime;
         }
+      
+        updateBackground(date);
       }
-      setInterval(updateEUTime, 1000);
-
-
+      
+      // Preload images
       const dayImg = new Image();
       dayImg.src = "Images/day.gif";
-
+      
       const nightImg = new Image();
       nightImg.src = "Images/night.gif";
 
-      function updateTime() {
-        const timeElement = document.querySelector(".card6 .time");
-    
-        // Fetch the current time in Germany
-        fetch("https://api.allorigins.win/raw?url=https://worldtimeapi.org/api/timezone/Europe/Berlin")
-          .then(response => response.json())
-          .then(data => {
-            const dateTime = new Date(data.datetime);
-            const hours = dateTime.getHours();
-            timeElement.textContent = dateTime.toLocaleTimeString("en-GB");
-    
-            // Set background based on time
-            const card = document.querySelector(".card6");
-            if (hours >= 6 && hours < 18) {
-              card.style.backgroundImage = "url('./Images/day.gif')"
-            } else {
-              card.style.backgroundImage = "url('./Images/night.gif')";
-            }
-          });
+      function updateBackground(date) {
+        const hours = date.getHours();
+        const card = document.querySelector(".card6");
+      
+        if (hours >= 6 && hours < 18) {
+          card.style.backgroundImage = "url('./Images/day.gif')";
+        } else {
+          card.style.backgroundImage = "url('./Images/night.gif')";
+        }
       }
-
+      
       window.onload = function () {
-        updateTime();
-        setInterval(updateTime, 60000);
+        updateEUTime();
+        setInterval(updateEUTime, 1000); 
       };
