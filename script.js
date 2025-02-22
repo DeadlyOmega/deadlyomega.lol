@@ -180,3 +180,230 @@
 
         // Run the function when the page loads
         updateBirthdayMessage();
+
+        window.addEventListener("keydown", function(e) {
+          if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+            e.preventDefault();
+          }
+        }, false);
+    
+        // Setup canvas
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+    
+        // Game grid dimensions
+        let cols = 20, rows = 20;
+        let cellSize = 20; // recalculated on resize
+    
+        // Game state variables
+        let snake = [{ x: Math.floor(cols / 2), y: Math.floor(rows / 2) }];
+        let direction = { x: 0, y: 0 }; // starts stationary
+        let pendingDirection = null;
+        // Fixed apple position at game start
+        let apple = { x: Math.floor(cols / 4), y: Math.floor(rows / 4) };
+        let gameSpeed = 150; // ms interval for updates
+        let score = 0;
+        let highScore = parseInt(getCookie("highScore")) || 0;
+        let gameInterval;
+        let isGameOver = false;
+        let isSplashActive = true; // controls the one-time splash overlay
+    
+        updateScore();
+    
+        // Resize canvas based on container size
+        function resizeCanvas() {
+          canvas.width = canvas.offsetWidth;
+          canvas.height = canvas.offsetHeight;
+          cellSize = Math.floor(canvas.width / cols);
+        }
+    
+        // Draw game elements
+        function draw() {
+          // Clear canvas so background remains transparent
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+          // Draw apple
+          ctx.fillStyle = "rgba(255, 0, 0, 0.8)";
+          ctx.beginPath();
+          ctx.arc((apple.x + 0.5) * cellSize, (apple.y + 0.5) * cellSize, cellSize * 0.4, 0, 2 * Math.PI);
+          ctx.fill();
+    
+          // Draw snake
+          ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
+          snake.forEach(segment => {
+            ctx.fillRect(segment.x * cellSize, segment.y * cellSize, cellSize, cellSize);
+          });
+        }
+    
+        // Update game logic
+        function update() {
+          if (pendingDirection) {
+            if ((pendingDirection.x !== -direction.x || snake.length === 1) &&
+                (pendingDirection.y !== -direction.y || snake.length === 1)) {
+              direction = pendingDirection;
+            }
+            pendingDirection = null;
+          }
+          
+          // If still stationary, do not update game logic
+          if (direction.x === 0 && direction.y === 0) return;
+    
+          const head = {
+            x: snake[0].x + direction.x,
+            y: snake[0].y + direction.y,
+          };
+    
+          // Check border collision: hitting any border ends the game
+          if (head.x < 0 || head.x >= cols || head.y < 0 || head.y >= rows) {
+            endGame();
+            return;
+          }
+    
+          // Check self-collision
+          if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+            endGame();
+            return;
+          }
+    
+          snake.unshift(head);
+    
+          // Apple eaten
+          if (head.x === apple.x && head.y === apple.y) {
+            score++;
+            if (score > highScore) {
+              highScore = score;
+              setCookie("highScore", highScore, 30);
+            }
+            updateScore();
+            placeApple();
+          } else {
+            snake.pop();
+          }
+        }
+    
+        // Main game loop
+        function gameLoop() {
+          update();
+          draw();
+        }
+    
+        // End game and display overlay
+        function endGame() {
+          clearInterval(gameInterval);
+          isGameOver = true;
+          document.getElementById("gameOverScreen").style.display = "flex";
+        }
+    
+        // Restart the game (splash overlay is not shown on restart)
+        function restartGame() {
+          isGameOver = false;
+          snake = [{ x: Math.floor(cols / 2), y: Math.floor(rows / 2) }];
+          direction = { x: 0, y: 0 };
+          pendingDirection = null;
+          score = 0;
+          apple = { x: Math.floor(cols / 4), y: Math.floor(rows / 4) };
+          updateScore();
+          document.getElementById("gameOverScreen").style.display = "none";
+          clearInterval(gameInterval);
+          gameInterval = setInterval(gameLoop, gameSpeed);
+        }
+    
+        // Place apple randomly (avoiding snake)
+        function placeApple() {
+          let valid = false;
+          while (!valid) {
+            apple.x = Math.floor(Math.random() * cols);
+            apple.y = Math.floor(Math.random() * rows);
+            valid = !snake.some(segment => segment.x === apple.x && segment.y === apple.y);
+          }
+        }
+    
+        // Update score display
+        function updateScore() {
+          document.getElementById("score").textContent = score;
+          document.getElementById("highScore").textContent = highScore;
+        }
+    
+        // Cookie helper functions
+        function getCookie(name) {
+          const nameEQ = name + "=";
+          const ca = document.cookie.split(";");
+          for (let i = 0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
+          }
+          return null;
+        }
+        function setCookie(name, value, days) {
+          let expires = "";
+          if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+            expires = "; expires=" + date.toUTCString();
+          }
+          document.cookie = name + "=" + value + expires + "; path=/";
+        }
+    
+        // Handle resizing
+        window.addEventListener("resize", () => {
+          resizeCanvas();
+          draw();
+        });
+    
+        // Keyboard controls for movement and for starting/restarting the game
+        window.addEventListener("keydown", e => {
+          // If splash overlay is active, remove it on Enter
+          if (isSplashActive) {
+            if (e.key === "Enter") {
+              hideSplash();
+            }
+          }
+          if (isGameOver) {
+            if (e.key === "Enter") {
+              restartGame();
+            }
+            return;
+          }
+          switch (e.key) {
+            case "ArrowUp":
+            case "w":
+            case "W":
+              pendingDirection = { x: 0, y: -1 };
+              break;
+            case "ArrowDown":
+            case "s":
+            case "S":
+              pendingDirection = { x: 0, y: 1 };
+              break;
+            case "ArrowLeft":
+            case "a":
+            case "A":
+              pendingDirection = { x: -1, y: 0 };
+              break;
+            case "ArrowRight":
+            case "d":
+            case "D":
+              pendingDirection = { x: 1, y: 0 };
+              break;
+          }
+        });
+    
+        // Allow click on splash overlay to start the game
+        document.getElementById("splashOverlay").addEventListener("click", () => {
+          if (isSplashActive) hideSplash();
+        });
+    
+        // Also allow click on game over overlay to restart (Enter or Click)
+        document.getElementById("gameOverScreen").addEventListener("click", () => {
+          if (isGameOver) restartGame();
+        });
+    
+        // Remove splash overlay
+        function hideSplash() {
+          document.getElementById("splashOverlay").style.display = "none";
+          isSplashActive = false;
+        }
+    
+        // Initialize game
+        resizeCanvas();
+        gameInterval = setInterval(gameLoop, gameSpeed);
