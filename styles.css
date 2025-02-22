@@ -486,3 +486,29 @@ main {
         font-size: 1.5rem;
       }
       
+      .eye-icon {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+    
+    .eye-text {
+        visibility: hidden;
+        width: 150px;
+        background-color: rgba(5, 113, 255, 0.486);
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+        position: absolute;
+        top: 70%; /* Position the tooltip above the icon */
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+        white-space: nowrap;
+    }
+    
+    .eye-icon:hover .eye-text {
+        visibility: visible;
+    }
