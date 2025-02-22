@@ -55,6 +55,13 @@
       }
       setInterval(updateEUTime, 1000);
 
+
+      const dayImg = new Image();
+      dayImg.src = "Images/day.gif";
+
+      const nightImg = new Image();
+      nightImg.src = "Images/night.gif";
+
       function updateTime() {
         const timeElement = document.querySelector(".card6 .time");
     
@@ -69,9 +76,9 @@
             // Set background based on time
             const card = document.querySelector(".card6");
             if (hours >= 6 && hours < 18) {
-              card.style.backgroundImage = `url('Images/day.gif?${new Date().getTime()}')`;
+              card.style.backgroundImage = "url('./Images/day.gif')"
             } else {
-              card.style.backgroundImage = `url('Images/night.gif?${new Date().getTime()}')`;
+              card.style.backgroundImage = "url('./Images/night.gif')";
             }
           });
       }
