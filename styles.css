@@ -116,9 +116,8 @@ main {
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 30%;
+    grid-auto-rows: 1fr;
     gap: 2%;
-  
     opacity: 0; /* Hidden initially */
     transform: translateY(20px);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
@@ -149,24 +148,18 @@ main {
     opacity: 0; /* Fade in animation */
     animation: fadeIn 0.6s ease-out forwards;
     background-color: #0000006b;
-    padding: 0;
   }
-  
+
   /* Fade in animation for the cards */
   @keyframes fadeIn {
     to {
-      opacity: 0.8;
+      opacity: 1;
     }
   }
   
   /* Large card variations */
   .card-large-h {
     grid-column: span 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    height: 100%; 
   }
   
   .card-large-v {
@@ -178,9 +171,6 @@ main {
     grid-row: span 2;
   }
   
-  .card-wide {
-    grid-column: span 2;
-  }
 
   .card1 {
     background-image: url('https://i.kym-cdn.com/entries/icons/facebook/000/050/204/cover2.jpg');
@@ -330,10 +320,11 @@ main {
   }
   .abtme {
     text-align: left;
-    vertical-align: bottom;
-    margin: 0;
-    margin-left: 5%;
-    margin-bottom: 5%;
+    display: block;
+    align-items: flex-end;
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
   }
 
   .card-background {
@@ -345,9 +336,9 @@ main {
 
   .card-background-title {
     color: #ffffff;
-    font-size: 1rem;
+    font-size: 1.3rem;
+    font-weight: 700;
     margin: 0 0 20px 0;
-    font-weight: normal;
     opacity: 0.9;
   }
 
@@ -411,7 +402,6 @@ main {
     vertical-align: middle;
     text-align: center;
     align-items: center;
-    margin-bottom: 14%;
   }
 
   #birthdayMessage:hover {
@@ -428,11 +418,10 @@ main {
       /* Game container (the playing field) */
       #gameContainer {
         width: 100%;
-        max-width: 600px;
-        aspect-ratio: 1/1; /* ensures square */
-        background-color: transparent;
-        position: relative;
-      }
+        max-width: 500px; /* Adjusted for better visibility */
+        aspect-ratio: 1/1; /* Keeps it square */
+        margin: auto; /* Centers the game */
+    }
       
       /* Canvas fills the container completely */
       #gameCanvas {
@@ -489,10 +478,11 @@ main {
         cursor: pointer;
       }
       #splashOverlay img {
-        max-width: 80%;
+        max-width: 60%;
         height: auto;
       }
       .splashText {
         margin-top: 10px;
         font-size: 1.5rem;
       }
+      
