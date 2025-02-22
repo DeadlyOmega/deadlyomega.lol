@@ -8,7 +8,7 @@
   body {
     font-family: 'Roboto', sans-serif; 
     background: #0F2027;  /* fallback for old browsers */
-    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #141e30, #243b55); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
     animation: gradientBG 15s ease infinite;
     color: #fff;
     line-height: 1.6;
@@ -75,7 +75,7 @@
     z-index: 9999;        /* Ensure it's above cards */
     justify-content: center; /* Centers the heading */
     align-items: center;
-    background-color: #0F2027;
+    background-color: #0000009d;
     border-radius: 33px;
     position: fixed;
     width: 80%;
@@ -146,6 +146,7 @@ main {
     border: 1px solid rgba(255, 255, 255, 0.1);
     opacity: 0; /* Fade in animation */
     animation: fadeIn 0.6s ease-out forwards;
+    background-color: #0000006b;
   }
   
   /* Fade in animation for the cards */
@@ -158,6 +159,11 @@ main {
   /* Large card variations */
   .card-large-h {
     grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    height: 100%; 
   }
   
   .card-large-v {
@@ -208,22 +214,31 @@ main {
     width: 40%;
   }
 
-  .discord-profile {
+  .discord-card {
     background: rgba(30, 31, 34, 0.95);
     border-radius: 16px;
-    align-self: center;
-    align-items: center;
-    padding: 16px;
-    color: #fff;
-    font-family: 'gg sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    width: 100%;
-    backdrop-filter: blur(8px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.24);
     border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex; /* Added for centering */
+    justify-content: center; /* Horizontal center */
+  }
+
+  .discord-profile {
+    position: fixed;
+    display: flex; /* Changed to flex */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center horizontally */
+    text-align: center; /* Ensures text centering */
+    padding: 16px;
+    padding-bottom: 2px;
+    color: #fff;
+    font-family: 'gg sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    backdrop-filter: blur(8px);
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact center */
   }
   
   .avatar-container {
-    align-self: center;
     position: relative;
     width: 80px;
     height: 80px;
@@ -241,6 +256,7 @@ main {
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
+    align-self: center;
   }
   
   .avatar-decoration {
@@ -272,25 +288,106 @@ main {
   
   .user-info {
     margin-left: 4px;
+    align-self: center;
   }
   
   .username {
     font-size: 20px;
     font-weight: 600;
-    margin-bottom: 4px;
-    color: #fff;
+    margin: 0; /* Removed bottom margin */
+    text-align: center; /* Explicit text centering */
+  }
+
+  .usernamename {
+    font-size: 13px;
+    color: #949ba4;
+    text-align: center; /* Added */
+    margin: 2px 0; /* Simplified margin */
   }
   
   .custom-status {
-    font-size: 13px;
+    font-size: 12px;
     color: #949ba4;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 4px;
+    text-align: center; /* Added */
+    margin: 4px 0; /* Simplified margin */
   }
   
   .platform-status {
     font-size: 12px;
     color: #949ba4;
+  }
+  .abtme {
+    text-align: left;
+    vertical-align: bottom;
+    margin: 0;
+    margin-left: 5%;
+    margin-bottom: 5%;
+  }
+
+  .card-background {
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-background-title {
+    color: #ffffff;
+    font-size: 1rem;
+    margin: 0 0 20px 0;
+    font-weight: normal;
+    opacity: 0.9;
+  }
+
+  .gradient-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .gradient-option {
+    width: 100%;
+    min-height: 50px;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 1px solid rgb(0, 0, 0);
+    transition: border 0.2s ease;
+  }
+  
+  .gradient-option:hover {
+    border-color: rgb(126, 126, 126);
+  }
+  
+  .gradient-option.selected {
+    border-color: rgb(255, 255, 255);
+  }
+  /* Dark theme gradients */
+  /* Add this to define the gradient variables */
+  :root {
+    --gradient-1: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%); /* Deep Space */
+    --gradient-2: linear-gradient(to right, #141e30, #243b55);
+    --gradient-3: linear-gradient(to right, #000000, #434343);
+    --gradient-4: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+    --gradient-5: linear-gradient(to right, #283c86, #45a247);
+    --gradient-6: linear-gradient(to right, #ff5f6d, #ffc371);
+    --gradient-7: linear-gradient(to right, #c94b4b, #4b134f);
+    --gradient-8: linear-gradient(to right, #2193b0, #6dd5ed);
+}
+
+/* Gradient button styling */
+.gradient-1 { background: var(--gradient-1); }
+.gradient-2 { background: var(--gradient-2); }
+.gradient-3 { background: var(--gradient-3); }
+.gradient-4 { background: var(--gradient-4); }
+.gradient-5 { background: var(--gradient-5); }
+.gradient-6 { background: var(--gradient-6); }
+.gradient-7 { background: var(--gradient-7); }
+.gradient-8 { background: var(--gradient-8); }
+
+
+  @media (max-width: 640px) {
+    .gradient-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }

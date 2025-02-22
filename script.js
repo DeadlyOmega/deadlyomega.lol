@@ -132,3 +132,33 @@
       // Update immediately and then every 30 seconds
       updateDiscordStatus();
       setInterval(updateDiscordStatus, 30000);
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const gradientOptions = document.querySelectorAll('.gradient-option');
+        let selectedOption = null;
+        
+        gradientOptions.forEach(option => {
+          option.addEventListener('click', function() {
+            // Remove previously selected class
+            if (selectedOption) {
+              selectedOption.classList.remove('selected');
+            }
+            // Add selected class to current button
+            this.classList.add('selected');
+            selectedOption = this;
+            
+            // Get the gradient custom property name from data-gradient
+            const gradientClass = this.dataset.gradient;
+            const gradientValue = getComputedStyle(document.documentElement)
+                                    .getPropertyValue(`--${gradientClass}`);
+            
+            // Apply the gradient to the body
+            document.body.style.background = gradientValue;
+            
+            // (Optional) Enable animated effect by adding a class if you want an animated gradient.
+            // Toggle the line below based on your preference.
+            document.body.classList.add('animated-gradient');
+          });
+        });
+      });
+      
