@@ -1,117 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Omega's Corner</title>
-  <!-- Import a premium Google Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" as="font" type="font/woff2" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css2?family=Birthstone&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/x-icon" href="Images/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>omega</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        /* ------------------ */
+        /* --- CSS STYLES --- */
+        /* ------------------ */
+
+        :root {
+            --primary-color: #00ffff; /* Neon Cyan */
+            --background-color: #000000;
+            --text-color: #ffffff;
+            --glow-color: rgba(0, 255, 255, 0.75);
+            --glitch-color-1: #ff00ff; /* Magenta */
+            --glitch-color-2: #00ff00; /* Green */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        /* --- BACKGROUND ELEMENTS --- */
+        #background-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: -2;
+            object-fit: cover;
+            filter: brightness(0.4);
+        }
+
+        #tsparticles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* --- ENTER SCREEN --- */
+        #enter-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
+        #enter-button {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-family: inherit;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color), 0 0 40px var(--glow-color), inset 0 0 10px var(--glow-color);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        #enter-button:hover {
+            background-color: var(--glow-color);
+            color: var(--background-color);
+            box-shadow: 0 0 20px var(--glow-color), 0 0 40px var(--glow-color), 0 0 80px var(--glow-color);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color), 0 0 40px var(--glow-color), inset 0 0 10px var(--glow-color);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px var(--glow-color), 0 0 40px var(--glow-color), 0 0 80px var(--glow-color), inset 0 0 15px var(--glow-color);
+            }
+        }
+        
+        /* --- MAIN CONTENT --- */
+        .content-wrapper {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-in, visibility 1s;
+            transform-style: preserve-3d; /* For vanilla-tilt.js */
+        }
+
+        .main-content {
+            background-color: rgba(10, 10, 10, 0.25);
+            backdrop-filter: blur(10px) saturate(120%);
+            -webkit-backdrop-filter: blur(10px) saturate(120%); /* For Safari */
+            padding: 40px;
+            border: 1px solid var(--primary-color);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 15px var(--glow-color), 0 0 30px var(--glow-color);
+            transform: translateZ(20px); /* For vanilla-tilt.js */
+        }
+
+        .main-content h1 {
+            font-size: 5rem;
+            margin: 0;
+            color: var(--text-color);
+            text-transform: lowercase;
+            text-shadow:
+                0 0 5px var(--text-color),
+                0 0 10px var(--text-color),
+                0 0 20px var(--primary-color),
+                0 0 40px var(--primary-color),
+                0 0 80px var(--primary-color);
+            animation: glitch 3s infinite;
+        }
+
+        .typed-cursor {
+            color: var(--primary-color);
+            opacity: 1;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: var(--primary-color);
+            letter-spacing: 2px;
+        }
+
+        .links {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            border: 1px solid var(--primary-color);
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .links a:hover {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            box-shadow: 0 0 10px var(--glow-color);
+            transform: translateY(-3px);
+        }
+
+        /* --- GLITCH ANIMATION --- */
+        @keyframes glitch {
+            2%, 64% {
+                transform: translate(2px, 0) skew(0deg);
+            }
+            4%, 60% {
+                transform: translate(-2px, 0) skew(0deg);
+            }
+            62% {
+                transform: translate(0, 0) skew(5deg);
+            }
+        }
+
+        .main-content h1:before,
+        .main-content h1:after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            overflow: hidden;
+        }
+
+        .main-content h1:before {
+            left: 3px;
+            text-shadow: -2px 0 var(--glitch-color-1);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+
+        .main-content h1:after {
+            left: -3px;
+            text-shadow: -2px 0 var(--glitch-color-2), 2px 2px var(--glitch-color-1);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(15% 0 86% 0); }
+            10% { clip-path: inset(53% 0 25% 0); }
+            20% { clip-path: inset(21% 0 38% 0); }
+            30% { clip-path: inset(62% 0 13% 0); }
+            40% { clip-path: inset(89% 0 3% 0); }
+            50% { clip-path: inset(45% 0 46% 0); }
+            60% { clip-path: inset(9% 0 80% 0); }
+            70% { clip-path: inset(72% 0 5% 0); }
+            80% { clip-path: inset(34% 0 51% 0); }
+            90% { clip-path: inset(92% 0 2% 0); }
+            100% { clip-path: inset(58% 0 39% 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(78% 0 15% 0); }
+            10% { clip-path: inset(4% 0 88% 0); }
+            20% { clip-path: inset(93% 0 4% 0); }
+            30% { clip-path: inset(45% 0 52% 0); }
+            40% { clip-path: inset(18% 0 74% 0); }
+            50% { clip-path: inset(85% 0 4% 0); }
+            60% { clip-path: inset(39% 0 49% 0); }
+            70% { clip-path: inset(86% 0 5% 0); }
+            80% { clip-path: inset(53% 0 41% 0); }
+            90% { clip-path: inset(21% 0 73% 0); }
+            100% { clip-path: inset(69% 0 29% 0); }
+        }
+
+    </style>
 </head>
 <body>
-    <div class="content" style="display: none; opacity: 0;">
-        <header>
-            <nav class="navbar">
-                <h1 class="heading">deadlyomega.lol</h1>
-                <div class="counter-wrapper">
-                  <h1 id="numberDisplay"></h1>
-                  <div class="eye-icon">
-                    <i class="material-icons">visibility</i>
-                    <span class="eye-text">Times you viewed this site</span>
-                  </div>
-                </div>
-            </nav>
-        </header>
+
+    <!-- Background Elements -->
+    <div id="tsparticles"></div>
+    
+    <!-- C4: CUSTOMIZE VIDEO HERE -->
+    <!-- Replace 'your-video-file.mp4' with the path to your video. -->
+    <!-- For demonstration, I'm using a placeholder video from Pexels. -->
+    <video autoplay muted loop id="background-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-scrolling-data-codes-34788-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Enter Screen -->
+    <div id="enter-screen">
+        <button id="enter-button">Enter</button>
     </div>
 
-  <div class="loading_container">
-    <div class="loading"></div>
-    <h3>loading...</h3>
-  </div>
-  <main>
-    <div class="grid-container">
-      <div class="card card-background" style="background-color: #222222;">
-        <h2 class="card-background-title">Select Background</h2>
-        <div class="gradient-grid">
-          <button class="gradient-option gradient-1" data-gradient="gradient-1"></button>
-          <button class="gradient-option gradient-2" data-gradient="gradient-2"></button>
-          <button class="gradient-option gradient-3" data-gradient="gradient-3"></button>
-          <button class="gradient-option gradient-4" data-gradient="gradient-4"></button>
-          <button class="gradient-option gradient-5" data-gradient="gradient-5"></button>
-          <button class="gradient-option gradient-6" data-gradient="gradient-6"></button>
-          <button class="gradient-option gradient-7" data-gradient="gradient-7"></button>
-          <button class="gradient-option gradient-8" data-gradient="gradient-8"></button>
-        </div>
-      </div>
-      <div class="card card-large-h" style="background-color: #141e30;">
-        <div class="abtme">
-          <h2>Omega</h2>
-          <p>16y/o who likes Coding & Minecraft</p>
-        </div>
-      </div>
-      <div class="card card-large-v"></div>
-      <div class="card card-large-v">bla</div>
-      <div class="card card-large snake">
-        <div id="gameContainer">
-          <canvas id="gameCanvas"></canvas>
-          <div id="scoreBoard">
-            Score: <span id="score">0</span><br>
-            High Score: <span id="highScore">0</span>
-          </div>
-          <!-- Splash overlay: appears only once on initial load -->
-          <div id="splashOverlay">
-            <img src="Images\keys.png" alt="Retro Snake Game" />
-            <div class="splashText">Press Enter or Click to Start</div>
-          </div>
-          <div id="gameOverScreen">
-            <div>Game Over</div>
-            <div style="font-size: 1rem; margin-top: 100px;">
-              Press Enter or Click to Restart
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="main-content" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="500" data-tilt-glare data-tilt-max-glare="0.2">
+            
+            <!-- C1: CUSTOMIZE TEXT HERE -->
+            <!-- The first string in the `strings` array in the JS section will be your main name -->
+            <h1 data-text="omega">
+                <span id="typed-text"></span>
+            </h1>
+            
+            <p class="subtitle">welcome to my corner of the internet</p>
+
+            <div class="links">
+                <!-- C2: CUSTOMIZE LINKS HERE -->
+                <a href="#" target="_blank">github</a>
+                <a href="#" target="_blank">projects</a>
+                <a href="#" target="_blank">contact</a>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="card card6">
-        <h2>Time in Germany</h2>
-        <p class="time"></p>
-      </div>
-      <div class="card discord-card" onclick="window.open('https://discord.gg/ffYRDTM5', '_blank')">
-        <div class="discord-profile">
-          <div class="avatar-container">
-            <div class="avatar-wrapper">
-              <img class="avatar" src="" alt="User Avatar">
-              <div class="status-indicator"></div>
-            </div>
-            <img class="avatar-decoration" src="Images\avatar.png" alt="Avatar Decoration">
-          </div>
-          <div class="user-info">
-            <div class="username"></div>
-            <div class="usernamename">@deadlyomega</div>
-            <div class="custom-status"></div>
-          </div>
-        </div>
-      </div>
-      <div class="card card-large-h">
-        <h2 id="birthdayMessage">Birthday in <span id="daysLeft"></span> days</h2>
-      </div>
-      <div class="card card1" onclick="window.open('https://paypal.me/deadlyomega', '_blank')">Donate</div>
-      <div class="card card-large-h">Karte 2</div>
-      <div class="card">bla</div>
-      <div class="card card-large-v">bla</div>
-      <div class="card">bla</div>
-      <div class="card card-large-h">Karte 2</div>
     </div>
-  </main>
 
-  <footer>
-  </footer>
+    <!-- Audio Player -->
+    <!-- C3: CUSTOMIZE MUSIC HERE -->
+    <!-- Replace 'your-music-file.mp3' with the path to your audio file. -->
+    <!-- For demonstration, I'm using a placeholder from Pixabay. -->
+    <audio id="background-music" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_a40a8f1548.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
-  <script src="script.js"></script>
+    <!-- JS Libraries -->
+    <!-- tsParticles for particle effects -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <!-- Typed.js for the typing effect -->
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <!-- Vanilla-Tilt.js for the 3D tilt effect -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <script>
+    /* ---------------------- */
+    /* --- JAVASCRIPT LOGIC --- */
+    /* ---------------------- */
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const enterButton = document.getElementById('enter-button');
+        const enterScreen = document.getElementById('enter-screen');
+        const contentWrapper = document.querySelector('.content-wrapper');
+        const backgroundMusic = document.getElementById('background-music');
+
+        // --- Enter Site Interaction ---
+        enterButton.addEventListener('click', () => {
+            // Fade out the enter screen
+            enterScreen.style.opacity = '0';
+            enterScreen.addEventListener('transitionend', () => {
+                enterScreen.style.display = 'none';
+            });
+
+            // Start music (user interaction is required)
+            backgroundMusic.volume = 0.3; // Set a comfortable volume
+            backgroundMusic.play();
+
+            // Fade in the main content
+            contentWrapper.style.visibility = 'visible';
+            contentWrapper.style.opacity = '1';
+            
+            // Initialize Typed.js only after the content is visible
+            initTyped();
+        });
+
+        // --- tsParticles Configuration ---
+        tsParticles.load("tsparticles", {
+            fpsLimit: 60,
+            interactivity: {
+                events: {
+                    onHover: {
+                        enable: true,
+                        mode: "repulse",
+                    },
+                    resize: true,
+                },
+                modes: {
+                    repulse: {
+                        distance: 100,
+                        duration: 0.4,
+                    },
+                },
+            },
+            particles: {
+                color: {
+                    value: "#00ffff", // Neon Cyan
+                },
+                links: {
+                    color: "#ffffff",
+                    distance: 150,
+                    enable: true,
+                    opacity: 0.2,
+                    width: 1,
+                },
+                collisions: {
+                    enable: true,
+                },
+                move: {
+                    direction: "none",
+                    enable: true,
+                    outModes: {
+                        default: "bounce",
+                    },
+                    random: false,
+                    speed: 1,
+                    straight: false,
+                },
+                number: {
+                    density: {
+                        enable: true,
+                        area: 800,
+                    },
+                    value: 80,
+                },
+                opacity: {
+                    value: 0.3,
+                },
+                shape: {
+                    type: "circle",
+                },
+                size: {
+                    value: { min: 1, max: 3 },
+                },
+            },
+            detectRetina: true,
+        });
+
+        // --- Typed.js Initialization Function ---
+        function initTyped() {
+            // Customize the strings here
+            const options = {
+                strings: ['omega', 'a developer', 'a creator', 'omega'],
+                typeSpeed: 100,
+                backSpeed: 50,
+                backDelay: 2000,
+                startDelay: 500,
+                loop: true,
+                showCursor: true,
+                cursorChar: '_',
+            };
+            const typed = new Typed('#typed-text', options);
+        }
+
+        // --- Vanilla-Tilt.js Initialization ---
+        // It's already initialized by the data-tilt attribute in the HTML.
+        // This is just to confirm it's loaded and ready.
+        VanillaTilt.init(document.querySelector(".main-content"), {
+            max: 5,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+        });
+
+    });
+    </script>
+
 </body>
 </html>

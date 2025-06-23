@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Omega's Corner</title>
+  <!-- Import a premium Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" as="font" type="font/woff2" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Birthstone&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/x-icon" href="Images/favicon.png">
+</head>
+<body>
+    <div class="content" style="display: none; opacity: 0;">
+        <header>
+            <nav class="navbar">
+                <h1 class="heading">deadlyomega.lol</h1>
+                <div class="counter-wrapper">
+                  <h1 id="numberDisplay"></h1>
+                  <div class="eye-icon">
+                    <i class="material-icons">visibility</i>
+                    <span class="eye-text">Times you viewed this site</span>
+                  </div>
+                </div>
+            </nav>
+        </header>
+    </div>
+
+  <div class="loading_container">
+    <div class="loading"></div>
+    <h3>loading...</h3>
+  </div>
+  <main>
+    <div class="grid-container">
+      <div class="card card-background" style="background-color: #222222;">
+        <h2 class="card-background-title">Select Background</h2>
+        <div class="gradient-grid">
+          <button class="gradient-option gradient-1" data-gradient="gradient-1"></button>
+          <button class="gradient-option gradient-2" data-gradient="gradient-2"></button>
+          <button class="gradient-option gradient-3" data-gradient="gradient-3"></button>
+          <button class="gradient-option gradient-4" data-gradient="gradient-4"></button>
+          <button class="gradient-option gradient-5" data-gradient="gradient-5"></button>
+          <button class="gradient-option gradient-6" data-gradient="gradient-6"></button>
+          <button class="gradient-option gradient-7" data-gradient="gradient-7"></button>
+          <button class="gradient-option gradient-8" data-gradient="gradient-8"></button>
+        </div>
+      </div>
+      <div class="card card-large-h" style="background-color: #141e30;">
+        <div class="abtme">
+          <h2>Omega</h2>
+          <p>16y/o who likes Coding & Minecraft</p>
+        </div>
+      </div>
+      <div class="card card-large-v"></div>
+      <div class="card card-large-v">bla</div>
+      <div class="card card-large snake">
+        <div id="gameContainer">
+          <canvas id="gameCanvas"></canvas>
+          <div id="scoreBoard">
+            Score: <span id="score">0</span><br>
+            High Score: <span id="highScore">0</span>
+          </div>
+          <!-- Splash overlay: appears only once on initial load -->
+          <div id="splashOverlay">
+            <img src="Images\keys.png" alt="Retro Snake Game" />
+            <div class="splashText">Press Enter or Click to Start</div>
+          </div>
+          <div id="gameOverScreen">
+            <div>Game Over</div>
+            <div style="font-size: 1rem; margin-top: 100px;">
+              Press Enter or Click to Restart
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card card6">
+        <h2>Time in Germany</h2>
+        <p class="time"></p>
+      </div>
+      <div class="card discord-card" onclick="window.open('https://discord.gg/ffYRDTM5', '_blank')">
+        <div class="discord-profile">
+          <div class="avatar-container">
+            <div class="avatar-wrapper">
+              <img class="avatar" src="" alt="User Avatar">
+              <div class="status-indicator"></div>
+            </div>
+            <img class="avatar-decoration" src="Images\avatar.png" alt="Avatar Decoration">
+          </div>
+          <div class="user-info">
+            <div class="username"></div>
+            <div class="usernamename">@deadlyomega</div>
+            <div class="custom-status"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card card-large-h">
+        <h2 id="birthdayMessage">Birthday in <span id="daysLeft"></span> days</h2>
+      </div>
+      <div class="card card1" onclick="window.open('https://paypal.me/deadlyomega', '_blank')">Donate</div>
+      <div class="card card-large-h">Karte 2</div>
+      <div class="card">bla</div>
+      <div class="card card-large-v">bla</div>
+      <div class="card">bla</div>
+      <div class="card card-large-h">Karte 2</div>
+    </div>
+  </main>
+
+  <footer>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
