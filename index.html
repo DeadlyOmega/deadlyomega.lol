@@ -315,6 +315,11 @@
         const contentWrapper = document.querySelector('.content-wrapper');
         const backgroundMusic = document.getElementById('background-music');
 
+        // *** FIX: Read CSS variable values into JS constants ***
+        const rootStyles = getComputedStyle(document.documentElement);
+        const primaryColor = rootStyles.getPropertyValue('--primary-color').trim();
+        const secondaryColor = rootStyles.getPropertyValue('--secondary-color').trim();
+
         // --- C5: CUSTOMIZE MUSIC PLAYLIST HERE ---
         const musicPlaylist = [
             'https://cdn.pixabay.com/audio/2023/09/24/audio_9628059a40.mp3', // Dark Ambient
@@ -329,14 +334,12 @@
             enterScreen.style.opacity = '0';
             enterScreen.addEventListener('transitionend', () => enterScreen.style.display = 'none');
 
-            // Randomly select and play music
             const randomSong = musicPlaylist[Math.floor(Math.random() * musicPlaylist.length)];
             backgroundMusic.src = randomSong;
-            backgroundMusic.volume = 0.15; // Set to be quiet and ambient
-            backgroundMusic.load(); // Important: load the new source
+            backgroundMusic.volume = 0.15;
+            backgroundMusic.load();
             backgroundMusic.play();
 
-            // Reveal content
             contentWrapper.style.visibility = 'visible';
             contentWrapper.style.opacity = '1';
             
@@ -358,11 +361,11 @@
         hoverables.forEach(el => {
             el.addEventListener('mouseover', () => {
                 cursorRing.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                cursorRing.style.borderColor = 'var(--secondary-color)';
+                cursorRing.style.borderColor = secondaryColor; // Use the JS constant
             });
             el.addEventListener('mouseout', () => {
                 cursorRing.style.transform = 'translate(-50%, -50%) scale(1)';
-                cursorRing.style.borderColor = 'var(--primary-color)';
+                cursorRing.style.borderColor = primaryColor; // Use the JS constant
             });
         });
 
@@ -379,9 +382,13 @@
                 },
             },
             particles: {
-                color: { value: var(--primary-color) },
+                color: { 
+                    // *** FIX: Use the JS constants here ***
+                    value: [primaryColor, secondaryColor]
+                },
                 links: {
-                    color: var(--primary-color),
+                    // *** FIX: Use the JS constants here ***
+                    color: primaryColor,
                     distance: 120,
                     enable: true,
                     opacity: 0.1,
@@ -398,11 +405,11 @@
                 },
                 number: {
                     density: { enable: true, area: 800 },
-                    value: 150, // More particles
+                    value: 150,
                 },
                 opacity: { value: 0.3 },
                 shape: { type: "circle" },
-                size: { value: { min: 1, max: 2 } }, // Smaller particles
+                size: { value: { min: 1, max: 2 } },
             },
             detectRetina: true,
         });
@@ -410,7 +417,7 @@
         // --- Typed.js Initialization ---
         function initTyped() {
             const options = {
-                strings: ['omega', 'a developer', 'a creator', 'omega'], // Edit main name here
+                strings: ['omega', 'a developer', 'a creator', 'omega'],
                 typeSpeed: 100,
                 backSpeed: 50,
                 backDelay: 2000,
@@ -422,8 +429,6 @@
             const typed = new Typed('#typed-text', options);
         }
 
-        // --- Vanilla-Tilt.js ---
-        // Initialized via data-tilt attributes in HTML
     });
     </script>
 </body>
