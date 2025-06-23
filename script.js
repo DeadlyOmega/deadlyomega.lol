@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function initAnimations() {
         new Typed('#typed-text', {
-            strings: ['omega', 'a developer', 'a creator', 'omega'],
+            strings: ['omega', 'a developer', 'a creator', 'omega', goofy],
             typeSpeed: 100,
             backSpeed: 50,
             backDelay: 2000,
