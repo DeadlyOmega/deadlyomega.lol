@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function startScrambleEffect() {
         scrambleText();
-        setInterval(scrambleText, 8000);
+        setInterval(scrambleText, 10000);
     }
 
     const cursorDot = document.getElementById('cursor-dot');
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function initTyped() {
         const options = {
-            strings: ['OMEGA', 'A Developer', 'Some Goofy', 'The Sigma', 'THE HACKER'],
+            strings: ['Omega', 'A Developer', 'Hacker', 'The Sigma', 'Omega', 'The Creator'],
             typeSpeed: 100,
             backSpeed: 50,
             backDelay: 2000,
