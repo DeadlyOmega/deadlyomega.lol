@@ -1,13 +1,22 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     const enterButton = document.getElementById('enter-button');
     const enterScreen = document.getElementById('enter-screen');
     const contentWrapper = document.querySelector('.content-wrapper');
     const backgroundMusic = document.getElementById('background-music');
     const subtitleElement = document.getElementById('scramble-text');
+    const buttonParticles = document.querySelector('.button-particles');
+    const particlesContainer = document.getElementById('tsparticles');
 
     const rootStyles = getComputedStyle(document.documentElement);
     const primaryColor = rootStyles.getPropertyValue('--primary-color').trim();
     const secondaryColor = rootStyles.getPropertyValue('--secondary-color').trim();
+
+    const prefersReducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const coarsePointerQuery = window.matchMedia('(pointer: coarse)');
+    const mobileWidthQuery = window.matchMedia('(max-width: 768px)');
+
+    const prefersReducedMotion = prefersReducedMotionQuery.matches;
+    const isMobile = coarsePointerQuery.matches || mobileWidthQuery.matches;
 
     const musicPlaylist = [
         'https://cdn.pixabay.com/audio/2025/03/11/audio_23143e0155.mp3',
@@ -19,14 +28,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const scrambleChars = '!@#$%^&*()_+-=[]{}|;:,.<>?abcdefghijklmnopqrstuvwxyz0123456789';
     let scrambleInterval;
+    let hasEntered = false;
 
     function scrambleText() {
+        if (prefersReducedMotion) return;
         const originalText = 'welcome to my corner of the internet';
         let iterations = 0;
-        const maxIterations = 20;
-        
+
         clearInterval(scrambleInterval);
-        
+
         scrambleInterval = setInterval(() => {
             const scrambled = originalText
                 .split('')
@@ -36,39 +46,37 @@ document.addEventListener('DOMContentLoaded', function() {
                     return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
                 })
                 .join('');
-            
-            subtitleElement.innerHTML = scrambled.split('').map(char => 
-                char === ' ' ? ' ' : `<span class="scramble-char">${char}</span>`
-            ).join('');
-            
+
+            subtitleElement.innerHTML = scrambled
+                .split('')
+                .map(char => (char === ' ' ? ' ' : `<span class="scramble-char">${char}</span>`))
+                .join('');
+
             if (iterations >= originalText.length) {
                 clearInterval(scrambleInterval);
                 subtitleElement.textContent = originalText;
             }
-            
-            iterations += 1/3;
+
+            iterations += 1 / 3;
         }, 50);
     }
 
-    function createParticleTrail(x, y) {
-        const trail = document.getElementById('particle-trail');
-        const particle = document.createElement('div');
-        particle.className = 'trail-particle';
-        particle.style.left = x + 'px';
-        particle.style.top = y + 'px';
-        trail.appendChild(particle);
-        
-        setTimeout(() => {
-            if (trail.contains(particle)) {
-                trail.removeChild(particle);
-            }
-        }, 800);
+    function startScrambleEffect() {
+        if (prefersReducedMotion) {
+            subtitleElement.textContent = 'welcome to my corner of the internet';
+            return;
+        }
+
+        scrambleText();
+        setInterval(scrambleText, 10000);
     }
 
     function createButtonParticles() {
-        const buttonParticles = document.querySelector('.button-particles');
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
+        if (!buttonParticles || buttonParticles.childElementCount) return;
+        const fragment = document.createDocumentFragment();
+
+        for (let i = 0; i < 25; i++) {
+            const particle = document.createElement('span');
             particle.style.position = 'absolute';
             particle.style.width = '2px';
             particle.style.height = '2px';
@@ -78,8 +86,10 @@ document.addEventListener('DOMContentLoaded', function() {
             particle.style.top = Math.random() * 100 + '%';
             particle.style.animation = `particleFloat ${2 + Math.random() * 3}s linear infinite`;
             particle.style.boxShadow = `0 0 6px ${primaryColor}`;
-            buttonParticles.appendChild(particle);
+            fragment.appendChild(particle);
         }
+
+        buttonParticles.appendChild(fragment);
     }
 
     const style = document.createElement('style');
@@ -93,124 +103,125 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
 
-    enterButton.addEventListener('mouseenter', createButtonParticles);
+    createButtonParticles();
 
-    enterButton.addEventListener('click', () => {
+    function handleEnter() {
+        if (hasEntered) return;
+        hasEntered = true;
+
         enterScreen.style.opacity = '0';
-        enterScreen.addEventListener('transitionend', () => enterScreen.style.display = 'none');
+        enterScreen.addEventListener('transitionend', () => enterScreen.style.display = 'none', { once: true });
 
         const randomSong = musicPlaylist[Math.floor(Math.random() * musicPlaylist.length)];
         backgroundMusic.src = randomSong;
         backgroundMusic.volume = 0.15;
         backgroundMusic.load();
-        backgroundMusic.play();
+        const playPromise = backgroundMusic.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {});
+        }
 
         contentWrapper.style.visibility = 'visible';
         contentWrapper.style.opacity = '1';
-        
+
         initTyped();
         startScrambleEffect();
-    });
-
-    function startScrambleEffect() {
-        scrambleText();
-        setInterval(scrambleText, 10000);
     }
 
-    const cursorDot = document.getElementById('cursor-dot');
-    const cursorRing = document.getElementById('cursor-ring');
-    const hoverables = document.querySelectorAll('a, button');
-    let mouseX = 0, mouseY = 0;
-
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        
-        cursorDot.style.left = mouseX + 'px';
-        cursorDot.style.top = mouseY + 'px';
-        cursorRing.style.left = mouseX + 'px';
-        cursorRing.style.top = mouseY + 'px';
-
-        if (Math.random() > 0.9) {
-            createParticleTrail(mouseX, mouseY);
+    enterButton.addEventListener('click', handleEnter);
+    enterButton.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar' || event.key === 'Space') {
+            handleEnter();
         }
     });
 
-    hoverables.forEach(el => {
-        el.addEventListener('mouseover', () => {
-            cursorRing.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            cursorRing.style.borderColor = secondaryColor;
-            cursorDot.style.background = secondaryColor;
-            cursorDot.style.boxShadow = `0 0 15px ${secondaryColor}`;
-        });
-        el.addEventListener('mouseout', () => {
-            cursorRing.style.transform = 'translate(-50%, -50%) scale(1)';
-            cursorRing.style.borderColor = primaryColor;
-            cursorDot.style.background = primaryColor;
-            cursorDot.style.boxShadow = `0 0 10px ${primaryColor}`;
-        });
-    });
+    function initParticles() {
+        if (!particlesContainer || typeof tsParticles === 'undefined') return;
 
-    tsParticles.load("tsparticles", {
-        fpsLimit: 120,
-        interactivity: {
-            events: {
-                onHover: { enable: true, mode: "grab" },
-                onClick: { enable: true, mode: "push" },
-                resize: true,
-            },
-            modes: {
-                grab: { 
-                    distance: 150, 
-                    links: { opacity: 0.8 }
+        if (prefersReducedMotion) {
+            particlesContainer.style.display = 'none';
+            return;
+        }
+
+        const particleCount = isMobile ? 70 : 160;
+
+        tsParticles.load('tsparticles', {
+            fpsLimit: 90,
+            interactivity: {
+                events: {
+                    onHover: { enable: !isMobile, mode: 'grab' },
+                    onClick: { enable: !isMobile, mode: 'push' },
+                    resize: true,
                 },
-                push: { quantity: 4 },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        links: { opacity: 0.7 }
+                    },
+                    push: { quantity: 3 },
+                },
             },
-        },
-        particles: {
-            color: { 
-                value: [primaryColor, secondaryColor]
-            },
-            links: {
-                color: primaryColor,
-                distance: 120,
-                enable: true,
-                opacity: 0.15,
-                width: 1,
-            },
-            collisions: { enable: false },
-            move: {
-                direction: "none",
-                enable: true,
-                outModes: { default: "bounce" },
-                random: true,
-                speed: 0.8,
-                straight: false,
-            },
-            number: {
-                density: { enable: true, area: 800 },
-                value: 180,
-            },
-            opacity: { 
-                value: 0.4,
-                animation: {
+            particles: {
+                color: {
+                    value: [primaryColor, secondaryColor]
+                },
+                links: {
+                    color: primaryColor,
+                    distance: 110,
                     enable: true,
-                    speed: 1,
-                    minimumValue: 0.1,
-                }
-            },
-            shape: { type: "circle" },
-            size: { 
-                value: { min: 1, max: 3 },
-                animation: {
+                    opacity: 0.12,
+                    width: 1,
+                },
+                collisions: { enable: false },
+                move: {
+                    direction: 'none',
                     enable: true,
-                    speed: 2,
-                    minimumValue: 0.5,
-                }
+                    outModes: { default: 'bounce' },
+                    random: true,
+                    speed: isMobile ? 0.4 : 0.8,
+                    straight: false,
+                },
+                number: {
+                    density: { enable: true, area: 800 },
+                    value: particleCount,
+                },
+                opacity: {
+                    value: 0.35,
+                    animation: {
+                        enable: true,
+                        speed: 0.6,
+                        minimumValue: 0.1,
+                    }
+                },
+                shape: { type: 'circle' },
+                size: {
+                    value: { min: 1, max: 3 },
+                    animation: {
+                        enable: true,
+                        speed: 1.5,
+                        minimumValue: 0.5,
+                    }
+                },
             },
-        },
-        detectRetina: true,
-    });
+            detectRetina: true,
+        });
+    }
+
+    initParticles();
+
+    if (!isMobile && window.VanillaTilt) {
+        VanillaTilt.init(document.querySelectorAll('[data-tilt]'), {
+            max: 6,
+            speed: 400,
+            glare: true,
+            'max-glare': 0.15,
+        });
+    } else {
+        const tiltTarget = document.querySelector('[data-tilt]');
+        if (tiltTarget) {
+            tiltTarget.removeAttribute('data-tilt');
+        }
+    }
 
     function initTyped() {
         const options = {
@@ -223,10 +234,14 @@ document.addEventListener('DOMContentLoaded', function() {
             cursorChar: '_',
             contentType: 'html',
             onStringTyped: () => {
-                document.querySelector('#typed-text').parentElement.style.animation = 'none';
-                setTimeout(() => {
-                    document.querySelector('#typed-text').parentElement.style.animation = 'glitch 3s infinite alternate';
-                }, 100);
+                const title = document.querySelector('#typed-text').parentElement;
+                if (!title) return;
+                title.style.animation = 'none';
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        title.style.animation = 'glitch 3s infinite alternate';
+                    });
+                });
             }
         };
         new Typed('#typed-text', options);
