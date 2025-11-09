@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initTyped() {
         const options = {
-            strings: ['Omega', 'Developer', 'Hacker', 'Omega', 'Creator'],
+            strings: ['Omega', 'Developer', 'Hacker', 'Omega', 'Coder'],
             typeSpeed: 100,
             backSpeed: 50,
             backDelay: 2000,
